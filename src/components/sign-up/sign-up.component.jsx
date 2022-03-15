@@ -16,6 +16,8 @@ const SignUp = () => {
   const [formFields, setFormFields] = useState(defaultForm);
   const { displayName, email, password, confirmPassword } = formFields;
 
+  const resetForm = () => { setFormFields(defaultForm) };
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormFields({ ...formFields, [name]: value });
@@ -33,7 +35,7 @@ const SignUp = () => {
       const {user} = await createAuthUserWithEmailAndPassword(email, password);
       createUserDocumentFromAuth(user, { displayName });
       // clear form field
-      setFormFields({...defaultForm})
+      resetForm()
       alert('User created successful')
 
     } catch(error) {

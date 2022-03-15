@@ -63,8 +63,13 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
 }
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
-  console.log(email, password)
   if(!email || !password) return;
   const userAuth = await createUserWithEmailAndPassword(auth, email, password)
+  return userAuth
+}
+
+export const signInAuthUserWithEmailAndPassword = async (email, password) => {
+  if(!email || !password) return;
+  const userAuth = await signInWithEmailAndPassword(auth, email, password);
   return userAuth
 }
