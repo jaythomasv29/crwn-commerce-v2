@@ -8,6 +8,7 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signInWithPopup,
+  signOut,
 } from "firebase/auth";
 
 // Your web app's Firebase configuration
@@ -73,3 +74,5 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
   const userAuth = await signInWithEmailAndPassword(auth, email, password);
   return userAuth
 }
+
+export const signOutUser = async () => await signOut(auth);
