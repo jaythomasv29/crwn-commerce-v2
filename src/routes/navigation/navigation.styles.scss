@@ -22,5 +22,14 @@
       padding: 10px 15px;
       cursor: pointer;
     }
+
+    .sign-out-text {
+      color: #4285f4;
+     
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
   }
 }

@@ -2,18 +2,17 @@ import { Fragment, useContext } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { signOutUser } from '../../utils/firebase/firebase.utils';
 import { ReactComponent as CrwnLogo } from '../../assets/crown.svg';
-import { UserContext } from '../../components/contexts/user.context';
+import { UserContext } from '../../contexts/user.context';
+import { CartContext } from '../../contexts/cart.context';
+import CartDropdown from '../../components/cart-dropdown/cart-dropdown.component';
+import CartIcon from '../../components/cart-icon/cart-icon.component';
 
 import './navigation.styles.scss';
 
 const Navigation = () => {
-  const { currentUser, setCurrentUser } = useContext(UserContext);
-  console.log(currentUser)
+  const { currentUser } = useContext(UserContext);
+  const { isCartOpen } = useContext(CartContext);
 
-  const signOutHandler = async () => {
-    await signOutUser()
-    setCurrentUser(null)
-  }
   return (
     <Fragment>
       <div className='navigation'>
@@ -27,11 +26,15 @@ const Navigation = () => {
           <Link className='nav-link' to='#'>CONTACT</Link>
           {
             currentUser ?
-              <span className='nav-link' onClick={signOutHandler}>{currentUser.email.toUpperCase()} |  SIGN OUT</span>
+              <span className='nav-link' onClick={signOutUser}>{currentUser.email.toUpperCase()} |  <span className='sign-out-text'>SIGN OUT</span></span>
               :
               <Link className='nav-link' to='/auth'>SIGN IN</Link>
           }
+          <CartIcon />
         </div>
+        {
+          isCartOpen && <CartDropdown />
+        }
       </div>
       <Outlet />
     </Fragment>

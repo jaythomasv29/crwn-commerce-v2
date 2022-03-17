@@ -1,8 +1,11 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import FormInput from '../form-input/form-input.component'
-import { signInWithGooglePopup, createUserDocumentFromAuth, signInAuthUserWithEmailAndPassword } from '../../utils/firebase/firebase.utils';
+import {
+  signInWithGooglePopup,
+  signInAuthUserWithEmailAndPassword,
+} from '../../utils/firebase/firebase.utils';
 
-import { UserContext } from '../contexts/user.context';
+// import { UserContext } from '../contexts/user.context';
 import Button from '../button/button.component';
 import './sign-in.styles.scss'
 
@@ -14,8 +17,6 @@ const defaultForm = {
 const SignIn = () => {
   const [formFields, setFormFields] = useState(defaultForm);
   const { email, password } = formFields;
-
-  const { setCurrentUser } = useContext(UserContext)
 
   const resetForm = () => {
     setFormFields(defaultForm);
@@ -29,13 +30,10 @@ const SignIn = () => {
     event.preventDefault()
     // authenticate user with email and password
     try {
-      const { user } = await signInAuthUserWithEmailAndPassword(email, password)
-      setCurrentUser(user)
-      console.log(user)
-      
-    } catch (e){
+      await signInAuthUserWithEmailAndPassword(email, password)
+    } catch (e) {
       console.log(e.message)
-      switch(e.code) {
+      switch (e.code) {
         case 'auth/wrong-password':
           alert('Incorrect password. Please try again.')
           break;
@@ -44,16 +42,14 @@ const SignIn = () => {
           break;
         default:
           console.log(e)
-      } 
+      }
     } finally {
       resetForm()
     }
 
   }
-  const signInGoogleUser = async () => {
-    const response = await signInWithGooglePopup();
-    const { user } = response
-    const userDocRef = await createUserDocumentFromAuth(user)
+  const signInWithGoogle = async () => {
+    await signInWithGooglePopup();
 
   }
 
@@ -66,7 +62,7 @@ const SignIn = () => {
         <FormInput label="Password" type="password" required onChange={handleChange} value={password} name="password" />
         <div className="buttons-container">
           <Button type="submit">Sign In</Button>
-          <Button type="button" buttonType='google' onClick={signInGoogleUser}>Google Sign In</Button>
+          <Button type="button" buttonType='google' onClick={signInWithGoogle}>Google Sign In</Button>
         </div>
       </form>
     </div>
