@@ -4,9 +4,13 @@ import './checkout-item.styles.scss';
 
 const CheckoutItem = ({ cartItem }) => {
 
-  const { addItemToCart, removeItemFromCart, deleteProductFromCart } = useContext(CartContext);
+  const { addItemToCart, removeItemFromCart, clearProductFromCart, } = useContext(CartContext);
 
   const { name, imageUrl, price, quantity } = cartItem;
+  const clearItemHandler = () => clearProductFromCart(cartItem)
+  const addItemHandler = () => addItemToCart(cartItem)
+  const removeItemHandler = () => removeItemFromCart(cartItem)
+
   return (
     <div className='checkout-item-container'>
       <div className="image-container">
@@ -14,11 +18,13 @@ const CheckoutItem = ({ cartItem }) => {
       </div>
     
       <span className="name">{name}</span>
-      <span className="quantity">{quantity} </span>
+      <span className="quantity">
+        <div onClick={removeItemHandler} className="arrow">&#10094;</div>
+        <span className="value">{quantity}</span>
+        <div onClick={addItemHandler} className="arrow">&#10095;</div>
+     </span>
       <span className="price">{price}</span>
-      <span onClick={() => addItemToCart(cartItem)} >increment</span>
-      <span onClick={() => removeItemFromCart(cartItem)}>decrement</span>
-      <div onClick={() => deleteProductFromCart(cartItem)} className="remove-button">&#10005;</div>
+      <div onClick={clearItemHandler} className="remove-button">&#10005;</div>
     </div>
   )
 }
