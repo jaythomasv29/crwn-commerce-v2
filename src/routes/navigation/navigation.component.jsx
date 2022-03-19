@@ -7,7 +7,7 @@ import { CartContext } from '../../contexts/cart.context';
 import CartDropdown from '../../components/cart-dropdown/cart-dropdown.component';
 import CartIcon from '../../components/cart-icon/cart-icon.component';
 
-import './navigation.styles.scss';
+import { NavigationContainer, NavLinksContainer, NavLink } from './navigation.styles'
 
 const Navigation = () => {
   const { currentUser } = useContext(UserContext);
@@ -15,27 +15,27 @@ const Navigation = () => {
 
   return (
     <Fragment>
-      <div className='navigation'>
+      <NavigationContainer>
         <Link className='logo-container' to='/'>
           <CrwnLogo className='logo' />
         </Link>
-        <div className='nav-links-container'>
-          <Link className='nav-link' to='/shop'>SHOP</Link>
-          {/* <Link className='nav-link' to='#'>MENS</Link> */}
-          <Link className='nav-link' to='#'>WOMENS</Link>
-          <Link className='nav-link' to='#'>CONTACT</Link>
+        <NavLinksContainer>
+          <NavLink to='/shop'>SHOP</NavLink>
+          <NavLink to='/shop/mens'>MENS</NavLink>
+          <NavLink to='/shop/womens'>WOMENS</NavLink>
+          <NavLink to='#'>CONTACT</NavLink>
           {
             currentUser ?
-              <span className='nav-link' onClick={signOutUser}>{currentUser.email.toUpperCase()} |  <span className='sign-out-text'>SIGN OUT</span></span>
+              <NavLink as="span"><span onClick={signOutUser}>SIGN OUT | </span><span style={{color: `#4285f4`, textDecoration: `underline`}}>{currentUser.email.toUpperCase()}</span></NavLink>
               :
-              <Link className='nav-link' to='/auth'>SIGN IN</Link>
+              <NavLink to='/auth'>SIGN IN</NavLink>
           }
           <CartIcon />
-        </div>
+        </NavLinksContainer>
         {
           isCartOpen && <CartDropdown />
         }
-      </div>
+      </NavigationContainer>
       <Outlet />
     </Fragment>
   );
