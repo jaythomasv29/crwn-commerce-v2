@@ -6,7 +6,7 @@ import {
 } from '../../utils/firebase/firebase.utils';
 
 // import { UserContext } from '../contexts/user.context';
-import Button from '../button/button.component';
+import Button, {BUTTON_TYPE_CLASSES} from '../button/button.component';
 import './sign-in.styles.scss'
 
 const defaultForm = {
@@ -62,7 +62,7 @@ const SignIn = () => {
         <FormInput label="Password" type="password" required onChange={handleChange} value={password} name="password" />
         <div className="buttons-container">
           <Button type="submit">Sign In</Button>
-          <Button type="button" buttonType='google' onClick={signInWithGoogle}>Google Sign In</Button>
+          <Button type="button" buttonType={BUTTON_TYPE_CLASSES.google} onClick={signInWithGoogle}>Google Sign In</Button>
         </div>
       </form>
     </div>
